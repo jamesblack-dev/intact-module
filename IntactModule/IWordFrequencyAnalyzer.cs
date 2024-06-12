@@ -15,7 +15,7 @@ namespace Test
         /// <param name="text">The string of string you are testing against</param>
         /// <param name="word">The word you wish toe count the frequency of</param>
         /// <returns>How often the word provided was found in the text provided</returns>
-    int CalculateFrequencyForWord(string text, string word);
+        int CalculateFrequencyForWord(string text, string word);
         /// <summary>
         /// The most frequent words, return amount defined by the number parameter
         /// </summary>
