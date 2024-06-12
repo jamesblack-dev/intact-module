@@ -1,4 +1,4 @@
-﻿namespace Test
+﻿namespace IntactModule
 {
     public interface IWordFrequency
     {

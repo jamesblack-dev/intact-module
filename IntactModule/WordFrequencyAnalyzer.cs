@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace Test
+namespace IntactModule
 {
     public class WordFrequencyAnalyzer : IWordFrequencyAnalyzer
     {

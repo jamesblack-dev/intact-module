@@ -1,5 +1,3 @@
-using Test;
-
 namespace IntactModule.UnitTests
 {
     public class Tests

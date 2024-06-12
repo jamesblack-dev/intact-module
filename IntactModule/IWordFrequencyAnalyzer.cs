@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-namespace Test
+﻿namespace IntactModule
 {
     public interface IWordFrequencyAnalyzer
     {

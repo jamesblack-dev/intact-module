@@ -1,4 +1,4 @@
-﻿namespace Test
+﻿namespace IntactModule
 {
     /// <summary>
     /// Represents a word and its associated frequency.
