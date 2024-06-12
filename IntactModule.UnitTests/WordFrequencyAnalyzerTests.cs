@@ -4,15 +4,16 @@ namespace IntactModule.UnitTests
 {
     public class Tests
     {
+        IWordFrequencyAnalyzer analyzer;
         [SetUp]
         public void Setup()
         {
+            analyzer = new WordFrequencyAnalyzer();
         }
         [Test]
         public void WordFrequencyAnalyzer_CalculateFrequencyForWord_Success()
         {
             var testString = "The dog is the dog";
-            var analyzer = new WordFrequencyAnalyzer(testString);
             var mostFrequentWords = analyzer.CalculateMostFrequentWords(testString, 2);
             Assert.That(mostFrequentWords.Count, Is.EqualTo(2));
             Assert.IsTrue(string.Compare("dog", mostFrequentWords[0].Word, true) == 0);
@@ -24,7 +25,6 @@ namespace IntactModule.UnitTests
         {
             // Doesn't handle apostrophes
             var testString = "The dog is the dog you're";
-            var analyzer = new WordFrequencyAnalyzer(testString);
             var mostFrequentWords = analyzer.CalculateMostFrequentWords(testString, 2);
             Assert.That(mostFrequentWords.Count, Is.EqualTo(2));
             Assert.IsTrue(string.Compare("dog", mostFrequentWords[0].Word, true) == 0);
