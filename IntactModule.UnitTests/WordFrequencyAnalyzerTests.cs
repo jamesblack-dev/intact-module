@@ -20,26 +20,15 @@ namespace IntactModule.UnitTests
             Assert.IsTrue(string.Compare("lake", mostFrequentWords[1].Word, true) == 0);
         }
 
-        [Test]
-        public void WordFrequencyAnalyzer_CalculateFrequencyForWord_AdditionalPunctuation_ThrowsArgumentException()
+        [TestCase("You're The sun shines over you're the lake you'RE", "Argument: (text) has invalid character: '\''.")]
+        [TestCase("The sun shines over the lake. And the sun sets in the evening. Sun.", "Argument: (text) has invalid character: '.'.")]
+        public void WordFrequencyAnalyzer_CalculateFrequencyForWord_ThrowsArgumentException(string testString, string expectedOutputMessage)
         {
-            var testString = "You're The sun shines over you're the lake you'RE";
             var exception = Assert.Throws<ArgumentException>(() =>
             {
                 analyzer.CalculateMostFrequentWords(testString, 2);
             });
-            Assert.That(exception.Message, Is.EqualTo("Argument: (text) has invalid character: '\''."));
-        }
-
-        [Test]
-        public void WordFrequencyAnalyzer_CalculateFrequencyForWord_MultiSentenceParagraph_ThrowsArgumentException()
-        {
-            var testString = "The sun shines over the lake. And the sun sets in the evening. Sun.";
-            var exception = Assert.Throws<ArgumentException>(() =>
-            {
-                analyzer.CalculateMostFrequentWords(testString, 2);
-            });
-            Assert.That(exception.Message, Is.EqualTo("Argument: (text) has invalid character: '.'."));
+            Assert.That(exception.Message, Is.EqualTo(expectedOutputMessage));
         }
 
         [Test]
@@ -50,28 +39,14 @@ namespace IntactModule.UnitTests
             Assert.That(highestFrequency, Is.EqualTo(3));
         }
 
-        [Test]
-        public void WordFrequencyAnalyzer_CalculateFrequencyForWord_SingleOccurence_Success()
+        [TestCase("over", 1)]
+        [TestCase("the", 3)]
+        [TestCase("ThE", 3)]
+        public void WordFrequencyAnalyzer_CalculateFrequencyForWord(string wordUnderTest, int expectedFrequency)
         {
             var testString = "The sun shines over the lake thE";
-            var highestFrequency = analyzer.CalculateFrequencyForWord(testString, "over");
-            Assert.That(highestFrequency, Is.EqualTo(1));
-        }
-
-        [Test]
-        public void WordFrequencyAnalyzer_CalculateFrequencyForWord_HighestOccurence_Success()
-        {
-            var testString = "The sun shines over the lake thE";
-            var highestFrequency = analyzer.CalculateFrequencyForWord(testString, "the");
-            Assert.That(highestFrequency, Is.EqualTo(3));
-        }
-
-        [Test]
-        public void WordFrequencyAnalyzer_CalculateFrequencyForWord_HighestOccurence_HandlesMixedCasing()
-        {
-            var testString = "The sun shines over the lake thE";
-            var highestFrequency = analyzer.CalculateFrequencyForWord(testString, "ThE");
-            Assert.That(highestFrequency, Is.EqualTo(3));
+            var highestFrequency = analyzer.CalculateFrequencyForWord(testString, wordUnderTest);
+            Assert.That(highestFrequency, Is.EqualTo(expectedFrequency));
         }
     }
 }
