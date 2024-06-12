@@ -7,23 +7,23 @@ namespace IntactModule
         public int CalculateFrequencyForWord(string text, string word)
         {
             var sortedWordFrequencyList = GenerateSorting(text);
-            var wordFrequency = sortedWordFrequencyList.First((pair) => string.Compare(pair.Key, word, true) == 0);
-            return wordFrequency.Value;
+            var wordFrequency = sortedWordFrequencyList.First((pair) => string.Compare(pair.Word, word, true) == 0);
+            return wordFrequency.Frequency;
         }
 
         public int CalculateHighestFrequency(string text)
         {
             var sortedWordFrequencyList = GenerateSorting(text);
-            return sortedWordFrequencyList.First().Value;
+            return sortedWordFrequencyList.First().Frequency;
         }
 
         public IList<IWordFrequency> CalculateMostFrequentWords(string text, int number)
         {
-            var sortedWordFrequencyList = GenerateSorting(text);
-            return sortedWordFrequencyList.GetRange(0, number).Select(i => new WordFrequency { Word = i.Key, Frequency = i.Value } as IWordFrequency).ToList();
+            var sortedWordFrequencyList = GenerateSorting(text).ToList();
+            return sortedWordFrequencyList.GetRange(0, number);
         }
 
-        private List<KeyValuePair<string, int>> GenerateSorting(string text)
+        private IOrderedEnumerable<IWordFrequency> GenerateSorting(string text)
         {
             var invalidCharacterMatches = Regex.Matches(text, "[^a-zA-Z\\s]");
             if(invalidCharacterMatches.Count > 0)
@@ -31,36 +31,28 @@ namespace IntactModule
                 throw new ArgumentException($"Argument: ({nameof(text)}) has invalid character: '{invalidCharacterMatches.First().Value}'.");
             }
 
-            var frequencyHashMap = new Dictionary<string, int>();
+            var frequencyHashMap2 = new List<IWordFrequency>();
             // Get the collection of words, and lowercase for simplified comparisons
             var words = Regex.Matches(text, @"\w+").Select(m => m.Value.ToLower()).ToList();
             // Populate the word frequency hash map
             foreach (var word in words)
             {
-                if (frequencyHashMap.ContainsKey(word))
+                var entry = frequencyHashMap2.FirstOrDefault((freq) => string.Compare(freq.Word, word, StringComparison.OrdinalIgnoreCase) == 0);
+                if (entry != null)
                 {
-                    frequencyHashMap[word]++;
+                    entry.Frequency++;
                 }
                 else
                 {
-                    frequencyHashMap.Add(word, 1);
+                    frequencyHashMap2.Add(new WordFrequency { Word = word, Frequency = 1 });
                 }
             }
 
-            var sortedWordFrequencyList = frequencyHashMap.ToList();
+            frequencyHashMap2.OrderBy(freq => freq.Frequency).ThenBy(freq => freq.Word);
+
             // Apply sorting
-            sortedWordFrequencyList.Sort((item1, item2) =>
-            {
-                // If the comparing words have same frequency, favour alphabetical order
-                if (item2.Value - item1.Value == 0)
-                {
-                    return string.Compare(item1.Key, item2.Key);
-                }
-                else
-                {
-                    return item2.Value - item1.Value;
-                }
-            });
+            var sortedWordFrequencyList = frequencyHashMap2.OrderByDescending(freq => freq.Frequency).ThenBy(freq => freq.Word);
+
             return sortedWordFrequencyList;
         }
     }
