@@ -21,24 +21,25 @@ namespace IntactModule.UnitTests
         }
 
         [Test]
-        public void WordFrequencyAnalyzer_CalculateFrequencyForWord_AdditionalPunctuation_Success()
+        public void WordFrequencyAnalyzer_CalculateFrequencyForWord_AdditionalPunctuation_ThrowsArgumentException()
         {
-            // Doesn't handle apostrophes
             var testString = "You're The sun shines over you're the lake you'RE";
-            var mostFrequentWords = analyzer.CalculateMostFrequentWords(testString, 2);
-            Assert.That(mostFrequentWords.Count, Is.EqualTo(2));
-            Assert.IsTrue(string.Compare("re", mostFrequentWords[0].Word, true) == 0);
-            Assert.IsTrue(string.Compare("you", mostFrequentWords[1].Word, true) == 0);
+            var exception = Assert.Throws<ArgumentException>(() =>
+            {
+                analyzer.CalculateMostFrequentWords(testString, 2);
+            });
+            Assert.That(exception.Message, Is.EqualTo("Argument: (text) has invalid character: '\''."));
         }
 
         [Test]
-        public void WordFrequencyAnalyzer_CalculateFrequencyForWord_MultiSentenceParagraph_Success()
+        public void WordFrequencyAnalyzer_CalculateFrequencyForWord_MultiSentenceParagraph_ThrowsArgumentException()
         {
             var testString = "The sun shines over the lake. And the sun sets in the evening. Sun.";
-            var mostFrequentWords = analyzer.CalculateMostFrequentWords(testString, 2);
-            Assert.That(mostFrequentWords.Count, Is.EqualTo(2));
-            Assert.IsTrue(string.Compare("the", mostFrequentWords[0].Word, true) == 0);
-            Assert.IsTrue(string.Compare("sun", mostFrequentWords[1].Word, true) == 0);
+            var exception = Assert.Throws<ArgumentException>(() =>
+            {
+                analyzer.CalculateMostFrequentWords(testString, 2);
+            });
+            Assert.That(exception.Message, Is.EqualTo("Argument: (text) has invalid character: '.'."));
         }
 
         [Test]
