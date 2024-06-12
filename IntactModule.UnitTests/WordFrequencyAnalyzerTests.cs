@@ -73,15 +73,5 @@ namespace IntactModule.UnitTests
             var highestFrequency = analyzer.CalculateFrequencyForWord(testString, "ThE");
             Assert.That(highestFrequency, Is.EqualTo(3));
         }
-
-        [Test]
-        [Ignore("Framework testing, don't include in CI")]
-        public void StringCompareTest()
-        {
-            Assert.Pass();
-            var s1 = "thE";
-            var s2 = "The";
-            Assert.IsTrue(string.Compare(s1, s2, true) == 0);
-        }
     }
 }
