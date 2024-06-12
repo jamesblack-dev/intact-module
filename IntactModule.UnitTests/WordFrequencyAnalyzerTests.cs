@@ -50,6 +50,30 @@ namespace IntactModule.UnitTests
         }
 
         [Test]
+        public void WordFrequencyAnalyzer_CalculateFrequencyForWord_SingleOccurence_Success()
+        {
+            var testString = "The sun shines over the lake thE";
+            var highestFrequency = analyzer.CalculateFrequencyForWord(testString, "over");
+            Assert.That(highestFrequency, Is.EqualTo(1));
+        }
+
+        [Test]
+        public void WordFrequencyAnalyzer_CalculateFrequencyForWord_HighestOccurence_Success()
+        {
+            var testString = "The sun shines over the lake thE";
+            var highestFrequency = analyzer.CalculateFrequencyForWord(testString, "the");
+            Assert.That(highestFrequency, Is.EqualTo(3));
+        }
+
+        [Test]
+        public void WordFrequencyAnalyzer_CalculateFrequencyForWord_HighestOccurence_HandlesMixedCasing()
+        {
+            var testString = "The sun shines over the lake thE";
+            var highestFrequency = analyzer.CalculateFrequencyForWord(testString, "ThE");
+            Assert.That(highestFrequency, Is.EqualTo(3));
+        }
+
+        [Test]
         [Ignore("Framework testing, don't include in CI")]
         public void StringCompareTest()
         {

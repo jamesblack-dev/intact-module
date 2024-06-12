@@ -6,7 +6,9 @@ namespace Test
     {
         public int CalculateFrequencyForWord(string text, string word)
         {
-            throw new NotImplementedException();
+            var sortedWordFrequencyList = GenerateSorting(text);
+            var wordFrequency = sortedWordFrequencyList.First((pair) => string.Compare(pair.Key, word, true) == 0);
+            return wordFrequency.Value;
         }
 
         public int CalculateHighestFrequency(string text)
