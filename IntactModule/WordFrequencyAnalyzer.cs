@@ -11,7 +11,8 @@ namespace Test
 
         public int CalculateHighestFrequency(string text)
         {
-            throw new NotImplementedException();
+            var sortedWordFrequencyList = GenerateSorting(text);
+            return sortedWordFrequencyList[0].Value;
         }
 
         public IList<IWordFrequency> CalculateMostFrequentWords(string text, int number)

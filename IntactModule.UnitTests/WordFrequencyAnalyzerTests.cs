@@ -42,6 +42,14 @@ namespace IntactModule.UnitTests
         }
 
         [Test]
+        public void WordFrequencyAnalyzer_CalculateHighestFrequency_Success()
+        {
+            var testString = "The sun shines over the lake thE";
+            var highestFrequency = analyzer.CalculateHighestFrequency(testString);
+            Assert.That(highestFrequency, Is.EqualTo(3));
+        }
+
+        [Test]
         [Ignore("Framework testing, don't include in CI")]
         public void StringCompareTest()
         {
